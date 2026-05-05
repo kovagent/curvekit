@@ -14,7 +14,10 @@ name = "curvekit-cli"
 path = "src/main.rs"
 
 [dependencies]
-curvekit = { path = "../crates/curvekit", version = "1.0.1" }
+# CLI is a parquet workflow tool (backfill / append / inspect / manifest);
+# pin the parquet-loader feature on so the CLI compiles regardless of the
+# default-features setting in any consumer workspace.
+curvekit = { path = "../crates/curvekit", version = "1.1.0", features = ["parquet-loader"] }
 
 anyhow.workspace = true
 tokio.workspace = true

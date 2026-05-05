@@ -79,11 +79,13 @@
 //! - [`interpolation`] — linear interpolation between tenor knots.
 //! - [`error`] — unified [`Error`] enum and [`Result`] alias.
 
+#[cfg(feature = "parquet-loader")]
 pub mod client;
 pub mod curve;
 pub mod date;
 pub mod daycount;
 pub mod error;
+#[cfg(feature = "parquet-loader")]
 pub(crate) mod fetcher;
 pub mod interpolation;
 pub mod sources;
@@ -91,6 +93,7 @@ pub mod tenor;
 
 // ── Top-level re-exports ──────────────────────────────────────────────────────
 
+#[cfg(feature = "parquet-loader")]
 pub use client::Curvekit;
 pub use curve::{SofrDay, SofrRate, TermStructure, YieldCurve, YieldCurveDay, YieldType};
 pub use date::{Date, DateError, IntoDate};
@@ -103,6 +106,7 @@ pub use sources::treasury::{parse_treasury_csv, HttpTreasuryFetcher, TreasuryFet
 pub use tenor::Tenor;
 
 // Legacy bundled API re-exports (kept for backward compat, deprecated at source).
+#[cfg(feature = "parquet-loader")]
 #[allow(deprecated)]
 pub use sources::bundled::{
     rate_for, rate_for_days, sofr, sofr_latest_date, treasury_curve, treasury_latest_date,
@@ -113,8 +117,10 @@ pub use sources::bundled::{
 // Each function internally uses a process-wide `Curvekit` instance so that
 // multiple calls share one HTTP client and cache.
 
+#[cfg(feature = "parquet-loader")]
 use std::sync::OnceLock;
 
+#[cfg(feature = "parquet-loader")]
 fn global_client() -> &'static Curvekit {
     static CLIENT: OnceLock<Curvekit> = OnceLock::new();
     CLIENT.get_or_init(Curvekit::new)
@@ -132,6 +138,7 @@ fn global_client() -> &'static Curvekit {
 ///     Ok(())
 /// }
 /// ```
+#[cfg(feature = "parquet-loader")]
 pub async fn treasury_today() -> Result<YieldCurve> {
     global_client().treasury_latest().await
 }
@@ -150,6 +157,7 @@ pub async fn treasury_today() -> Result<YieldCurve> {
 ///     Ok(())
 /// }
 /// ```
+#[cfg(feature = "parquet-loader")]
 pub async fn treasury_curve_for(date: impl IntoDate) -> Result<YieldCurve> {
     global_client().treasury_par_curve(date).await
 }
@@ -168,6 +176,7 @@ pub async fn treasury_curve_for(date: impl IntoDate) -> Result<YieldCurve> {
 ///     Ok(())
 /// }
 /// ```
+#[cfg(feature = "parquet-loader")]
 pub async fn treasury_rate_at(date: impl IntoDate, tenor: impl Into<Tenor>) -> Result<f64> {
     global_client().treasury_rate(date, tenor).await
 }
@@ -184,6 +193,7 @@ pub async fn treasury_rate_at(date: impl IntoDate, tenor: impl Into<Tenor>) -> R
 ///     Ok(())
 /// }
 /// ```
+#[cfg(feature = "parquet-loader")]
 pub async fn sofr_today() -> Result<SofrDay> {
     global_client().sofr_latest().await
 }

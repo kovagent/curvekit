@@ -26,6 +26,7 @@ pub enum Error {
     Sofr(String),
 
     /// Parquet file read or write failed.
+    #[cfg(feature = "parquet-loader")]
     #[error("parquet I/O error: {0}")]
     Parquet(String),
 
@@ -47,16 +48,19 @@ pub enum Error {
     Io(#[from] std::io::Error),
 
     /// Arrow columnar format error (from parquet reading).
+    #[cfg(feature = "parquet-loader")]
     #[error("arrow error: {0}")]
     Arrow(#[from] arrow::error::ArrowError),
 
     /// Native parquet crate error.
+    #[cfg(feature = "parquet-loader")]
     #[error("parquet error: {0}")]
     ParquetNative(#[from] parquet::errors::ParquetError),
 
     /// SHA-256 digest of a fetched file does not match the manifest entry.
     ///
     /// The corrupt bytes were NOT written to the on-disk cache.
+    #[cfg(feature = "parquet-loader")]
     #[error("checksum mismatch for {file}: expected sha256:{expected} got sha256:{actual}")]
     ChecksumMismatch {
         file: String,
@@ -105,6 +109,7 @@ pub enum SofrError {
     InvalidDateRange { start: u32, end: u32 },
 }
 
+#[cfg(feature = "parquet-loader")]
 #[derive(Debug, Error)]
 pub enum ParquetError {
     #[error("Arrow error: {0}")]
@@ -137,6 +142,7 @@ impl From<SofrError> for Error {
     }
 }
 
+#[cfg(feature = "parquet-loader")]
 impl From<ParquetError> for Error {
     fn from(e: ParquetError) -> Self {
         match e {

@@ -5,9 +5,21 @@ edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Offline-first bundled-parquet risk-free rate library — Treasury yield curves + SOFR"
+description = "Risk-free rate library — Treasury yield curves + SOFR with optional bundled-parquet loader"
 keywords = ["treasury", "sofr", "yield-curve", "rates", "parquet"]
 categories = ["finance", "api-bindings"]
+
+[features]
+default = ["parquet-loader"]
+# Read bundled Treasury / SOFR / EFFR / OBFR data from parquet (local +
+# fetched). Disable to drop the parquet dependency (and its transitive
+# `paste 1.0.15` archived crate, RUSTSEC-2024-0436). With the feature
+# disabled, `Curvekit` and the bundled-parquet readers are unavailable;
+# downstream callers can still construct `YieldCurve` / `SofrDay` / `EffrDay`
+# / `ObfrDay` directly and use the CSV / JSON fetchers
+# (`HttpTreasuryFetcher`, `HttpSofrFetcher`, `HttpEffrFetcher`,
+# `HttpObfrFetcher`).
+parquet-loader = ["dep:arrow", "dep:parquet", "dep:tempfile", "dep:bytes"]
 
 [dependencies]
 anyhow.workspace = true
@@ -20,13 +32,13 @@ chrono.workspace = true
 chrono-tz.workspace = true
 async-trait.workspace = true
 reqwest.workspace = true
-arrow.workspace = true
-parquet.workspace = true
-bytes.workspace = true
+arrow = { workspace = true, optional = true }
+parquet = { workspace = true, optional = true }
+bytes = { workspace = true, optional = true }
 futures.workspace = true
 sha2.workspace = true
 directories = "5"
-tempfile = "3"
+tempfile = { version = "3", optional = true }
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }

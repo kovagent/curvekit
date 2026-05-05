@@ -7,6 +7,34 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-04
+
+### Added
+
+- `parquet-loader` Cargo feature (enabled by default) gates the bundled-parquet
+  reader, the `Curvekit` client, the ETag-aware fetcher, and every free-function
+  shortcut that reaches them (`treasury_today`, `treasury_curve_for`,
+  `treasury_rate_at`, `sofr_today`). Disable to drop the `parquet`,
+  `arrow`, `bytes`, and `tempfile` dependencies — and the transitive
+  `paste 1.0.15` (RUSTSEC-2024-0436). With the feature off, `YieldCurve`,
+  `SofrDay`, `EffrDay`, `ObfrDay`, and the CSV / JSON fetchers
+  (`HttpTreasuryFetcher`, `HttpSofrFetcher`, `HttpEffrFetcher`,
+  `HttpObfrFetcher`) remain available so callers can construct curves from
+  upstream APIs directly.
+- `pastey 0.2.2` workspace dependency (declaration only, not yet consumed).
+  Maintained drop-in for the archived `paste` macro crate; held at the
+  workspace level so any first-party macro work reaches the maintained fork.
+- `curvekit-cli` pins `features = ["parquet-loader"]` on its dependency on
+  `curvekit` so the CLI compiles regardless of the consumer workspace's
+  default-feature configuration.
+
+### Changed
+
+- `curvekit::Error` variants `Parquet`, `Arrow`, `ParquetNative`, and
+  `ChecksumMismatch` are now gated behind the `parquet-loader` feature.
+  Code that pattern-matches on these variants must compile under both
+  feature configurations or pin the feature on.
+
 ## [1.0.1] - 2026-04-24
 
 ### Added
