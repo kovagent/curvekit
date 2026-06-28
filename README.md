@@ -9,7 +9,7 @@ US Treasury yield curve and SOFR overnight rate for Rust. Served from bundled pa
 curvekit = "1.1.0"
 ```
 
-Until it is published to crates.io, depend on the repository directly:
+To track unreleased changes, depend on the repository directly:
 
 ```toml
 curvekit = { git = "https://github.com/userFRM/curvekit" }
