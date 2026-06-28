@@ -134,12 +134,12 @@ impl YieldCurve {
         self.points.is_empty()
     }
 
-    /// Return a `HashMap<days, continuous_rate>` suitable for Kairos's
-    /// `kairos_common::rates::FullRates::continuous_curve`.
+    /// Return a `HashMap<days, continuous_rate>` for a downstream rates
+    /// consumer that keys the curve by day count.
     ///
     /// The rates stored in `points` are already continuously compounded
     /// (converted from BEY during CSV parse / parquet read), so this is
-    /// a simple copy into the HashMap type Kairos expects.
+    /// a simple copy into the map.
     pub fn to_continuous_map(&self) -> HashMap<u32, f64> {
         self.points.iter().map(|(&k, &v)| (k, v)).collect()
     }

@@ -1,3 +1,5 @@
+<!-- Canonical CHANGELOG header for every *kit. The body keeps each kit's real
+release history; only this top block is standardized. -->
 # Changelog
 
 All notable changes to curvekit are documented here.

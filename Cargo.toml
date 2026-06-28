@@ -10,7 +10,7 @@ members = [
 version = "1.1.0"
 edition = "2021"
 authors = ["userFRM"]
-license = "Apache-2.0"
+license = "MIT OR Apache-2.0"
 repository = "https://github.com/userFRM/curvekit"
 documentation = "https://docs.rs/curvekit"
 
@@ -46,8 +46,8 @@ futures = "0.3"
 sha2 = "0.10"
 
 # ── Parquet / Arrow ──
-arrow = { version = "54", default-features = false, features = ["csv"] }
-parquet = { version = "54", default-features = false, features = ["snap", "zstd", "arrow"] }
+arrow = { version = "58", default-features = false, features = ["csv"] }
+parquet = { version = "58", default-features = false, features = ["snap", "zstd", "arrow"] }
 
 # ── Macros ──
 # Maintained drop-in for the archived `paste` crate (RUSTSEC-2024-0436).

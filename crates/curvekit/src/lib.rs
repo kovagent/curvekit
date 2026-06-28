@@ -24,30 +24,6 @@
 //! }
 //! ```
 //!
-//! # Client pattern — connection pool + cache reuse
-//!
-//! ```no_run
-//! use curvekit::{Curvekit, Date, Tenor};
-//!
-//! #[tokio::main]
-//! async fn main() -> curvekit::Result<()> {
-//!     let client = Curvekit::new();   // infallible, no ?
-//!
-//!     // Any date form — ISO string, compact u32, tuple, NaiveDate
-//!     let curve = client.treasury_curve("2020-03-20").await?;
-//!     let curve = client.treasury_curve(20200320u32).await?;
-//!     let curve = client.treasury_curve((2020i32, 3u32, 20u32)).await?;
-//!     let curve = client.treasury_curve(Date::today_et()).await?;
-//!
-//!     let r = client.treasury_rate("2020-03-20", Tenor::Y10).await?;
-//!
-//!     // Blocking from sync code — no async runtime needed
-//!     let curve = client.treasury_curve_blocking(20200320u32)?;
-//!
-//!     Ok(())
-//! }
-//! ```
-//!
 //! # Major types
 //!
 //! - [`Curvekit`] — stateful client; create once, call many times.

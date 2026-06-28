@@ -8,6 +8,9 @@ repository.workspace = true
 description = "Risk-free rate library — Treasury yield curves + SOFR with optional bundled-parquet loader"
 keywords = ["treasury", "sofr", "yield-curve", "rates", "parquet"]
 categories = ["finance", "api-bindings"]
+readme = "../../README.crates.md"
+# Keep the rich repo docs, bundled data, CLI and CI out of the published .crate.
+exclude = ["/data", "/docs", "/.github", "/cli", "CONTRIBUTING.md"]
 
 [features]
 default = ["parquet-loader"]

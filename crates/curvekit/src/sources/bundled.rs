@@ -188,7 +188,7 @@ fn latest_date_for(prefix: &str) -> Option<NaiveDate> {
 }
 
 // ---------------------------------------------------------------------------
-// `HashMap<u32,f64>` accessor for Kairos integration
+// `HashMap<u32,f64>` accessor for downstream integration
 // ---------------------------------------------------------------------------
 
 /// Return the full continuous yield curve as `HashMap<days, rate>`.
